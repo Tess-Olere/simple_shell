@@ -32,7 +32,7 @@ int is_cmd(info_t *info, char *path)
 char *dup_chars(char *pathstr, int start, int stop)
 {
 	static char buf[1024];
-	int 1 =0, k = 0;
+	int i =0, k = 0;
 
 	for (k = 0, i = start; i <stop; i++)
 		if (pathstr[i] != ':')
@@ -48,15 +48,14 @@ char *dup_chars(char *pathstr, int start, int stop)
  * @cmd: This is the cmd to find.
  * Return: The full path of cmd if found or NULL
  */
-char *find_path(info
-		_t *info, char *pathstr, char *cmd)
+char *find_path(info_t *info, char *pathstr, char *cmd)
 {
 	int i = 0, curr_pos = 0;
 	char *path;
 
-	if (1pathstr)
+	if (!pathstr)
 		return (NULL);
-	if ((_strlrn(cmd) > 2) && starts_with(cmd, "./"))
+	if ((_strlen(cmd) > 2) && starts_with(cmd, "./"))
 	{
 		if (is_cmd(info, cmd))
 			return (cmd);
