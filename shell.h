@@ -1,5 +1,5 @@
-#ifndef SHELL_H
-#define SHELL_H
+#ifndef _SHELL_H_
+#define _SHELL_H_
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -11,11 +11,6 @@
 #include <limits.h>
 #include <fcntl.h>
 #include <errno.h>
-
-#define PROMPT "$ "
-#define ERR_MALLOC "Memory allocation error\n"
-#define ERR_FORK "Fork error\n"
-#define ERR_PATH "Path error\n"
 
 /* for read/write buffers */
 #define READ_BUF_SIZE 1024
@@ -43,10 +38,10 @@ extern char **environ;
 
 
 /**
- * struct liststr - Singly linked list
- * @num: The number field
+ * struct liststr - The singly linked list
+ * @num: This is the number field
  * @str: A string
- * @next: Points to the next node
+ * @next: This points to the next node
  */
 typedef struct liststr
 {
@@ -56,26 +51,26 @@ typedef struct liststr
 } list_t;
 
 /**
- *struct passinfo - This contains pseudo-arguements to pass into a function,
- *allowing uniform prototype for function pointer struct
- *@arg: This is a string generated from getline containing arguements
- *@argv: This an array of strings generated from arg
- *@path: This is a string path for the current command
- *@argc: This is  the argument count
- *@line_count: This is the error count
- *@err_num: This is the error code for exit()s
- *@linecount_flag: If on count this line of input
- *@fname: This is the program filename
- *@env: This is the linked list local copy of environ
- *@environ: This is custom modified copy of environ from LL env
- *@history: This is the history node
- *@alias: This is the alias node
- *@env_changed: On if environ was changed
- *@status: The return status of the last exec'd command
- *@cmd_buf: This is the address of pointer to cmd_buf, on if chaining
- *@cmd_buf_type: CMD_type ||, &&, ;
- *@readfd: The fd from which to read line input
- *@histcount: The history line number count
+ * struct passinfo - This contains pseudo-arguements to pass into a function,
+ * allowing uniform prototype for function pointer struct
+ * @arg: This is a string generated from getline containing arguements
+ * @argv: This is an array of strings generated from arg
+ * @path: This is a string path for the current command
+ * @argc: This is the argument count
+ * @line_count: This is the error count
+ * @err_num: This is the error code for exit()s
+ * @linecount_flag: If on count this line of input
+ * @fname: This is the program filename
+ * @env: The linked list local copy of environ
+ * @environ: The custom modified copy of environ from LL env
+ * @history: This is the history node
+ * @alias: This is the alias node
+ * @env_changed: On if environ was changed
+ * @status: This is the return status of the last exec'd command
+ * @cmd_buf: The address of pointer to cmd_buf, on if chaining
+ * @cmd_buf_type: CMD_type ||, &&, ;
+ * @readfd: This is the fd from which to read line input
+ * @histcount: This is the history line number count
  */
 typedef struct passinfo
 {
@@ -94,7 +89,7 @@ typedef struct passinfo
 	int env_changed;
 	int status;
 
-	char *cmd_buf; /* pointer to cmd ; chain buffer, for memory mangement*/
+	char **cmd_buf; /* pointer to cmd ; chain buffer, for memory mangement */
 	int cmd_buf_type; /* CMD_type ||, &&, ; */
 	int readfd;
 	int histcount;
@@ -102,13 +97,12 @@ typedef struct passinfo
 
 #define INFO_INIT \
 {NULL, NULL, NULL, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, 0, 0, NULL, \
-	0, 0, 0}
-
+		0, 0, 0}
 
 /**
- *struct builtin - contains a builtin string and related function
- *@type: the builtin command flag
- *@func: the function
+ * struct builtin - contains a builtin string and related function
+ * @type: the builtin command flag
+ * @func: the function
  */
 typedef struct builtin
 {
@@ -136,7 +130,6 @@ void _eputs(char *);
 int _eputchar(char);
 int _putfd(char c, int fd);
 int _putsfd(char *str, int fd);
-void errors(int err);
 
 /* toem_string.c */
 int _strlen(char *);
@@ -238,6 +231,5 @@ void check_chain(info_t *, char *, size_t *, size_t, size_t);
 int replace_alias(info_t *);
 int replace_vars(info_t *);
 int replace_string(char **, char *);
-int main(int ac, char **av);
 
 #endif
